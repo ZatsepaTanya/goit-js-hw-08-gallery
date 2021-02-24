@@ -3,12 +3,12 @@
 import galleryItems from "./gallery-items.js";
 
 const refs = {
-  gallery: document.querySelector(".js-gallery"),
-  closeButton: document.querySelector('button[data-action="close-lightbox"]'),
+  gallery: document.querySelector(".js-gallery"),   //preview
+  closeButton: document.querySelector('button[data-action="close-lightbox"]'),  //btn
   overlay: document.querySelector("div.lightbox__content"),
-  item: document.querySelector(".lightbox__image"),
-  openModalWindow: document.querySelector("div.lightbox"),
-  img: document.querySelector(".lightbox__image")
+  item: document.querySelector(".lightbox__image"),   //modalImg
+  openModalWindow: document.querySelector("div.lightbox"),  //modal
+  img: document.querySelector(".lightbox__image")    /////modalImg
 };
 
 // Создание и рендер разметки по массиву данных и предоставленному шаблону.
@@ -29,6 +29,42 @@ galleryItems.forEach(item => {
 </li>`;
   refs.gallery.insertAdjacentHTML("beforeend", imageItem);
 });
+
+function previewClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") {
+      return
+  };
+
+  let bigImg = event.target;
+  // refs.openModalWindow.classList.add("is-open");
+  openModal(bigImg);
+
+
+  refs.openModalWindow.classList.add("is-open");
+  // refs.img.alt = targetImage.alt;
+  // refs.img.src = targetImage.dataset.source;
+  // window.addEventListener("keyup", handleEscape);
+  // window.addEventListener("keyup", handleScrolling);
+}
+
+// refs.openModalWindow.classList.add("is-open");
+  // refs.img.alt = targetImage.alt;
+  // refs.img.src = targetImage.dataset.source;
+  // window.addEventListener("keyup", handleEscape);
+  // window.addEventListener("keyup", handleScrolling);
+
+  function hangeleCloseButton() {
+  refs.openModalWindow.classList.remove("is-open");
+  refs.img.alt = "";
+  refs.img.src = "";
+  window.removeEventListener("keyup", handleEscape);
+  window.removeEventListener("keyup", handleScrolling);
+
+  }
+
+
 // Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
 // refs.gallery.addEventListener("click", handeleOpenItem);
 // refs.closeButton.addEventListener("click", hangeleCloseButton);
@@ -59,42 +95,3 @@ galleryItems.forEach(item => {
 //   window.removeEventListener("keyup", handleScrolling);
 // }
 
-// // Закрытие модального окна по клику на div.lightbox__overlay.
-// function hangeleCloseOverlay(evt) {
-//   if (evt.target !== evt.currentTarget) {
-//     return;
-//   }
-//   hangeleCloseButton();
-// }
-// // Закрытие модального окна по нажатию клавиши ESC.
-// function handleEscape(evt) {
-//   if (evt.keyCode !== 27) {
-//     return;
-//   }
-//   hangeleCloseButton();
-// }
-// // Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо".
-// let originItems = [];
-// galleryItems.forEach(item => {
-//   originItems.push(item.original);
-// });
-
-// function handleScrolling(evt) {
-//   let index = originItems.indexOf(refs.item.src);
-
-//   if (evt.keyCode === 39) {
-//     if (index < originItems.length - 1) {
-//       refs.item.setAttribute("src", originItems[index + 1]);
-//     } else {
-//       index = -1;
-//       refs.item.setAttribute("src", originItems[index + 1]);
-//     }
-//   }
-
-//   if (evt.keyCode === 37) {
-//     if (index === 0) {
-//       index = originItems.length;
-//       refs.item.setAttribute("src", originItems[index - 1]);
-//     } else refs.item.setAttribute("src", originItems[index - 1]);
-//   }
-// }
